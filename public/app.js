@@ -54,7 +54,7 @@ auth.onAuthStateChanged(user => {
                             const items = querySnapshot.docs.map(doc => {
                                 return `<li>${ doc.data().name}</li>`
                             })
-                            thingsRef.innerHTML = items.join('')
+                            thingsList.innerHTML = items.join('')
                         })
     } else {
         unsubscribe && unsubscribe()
