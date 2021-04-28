@@ -33,3 +33,28 @@ const thingsList = document.querySelector('#listOfthings')
 
 let thingsRef;
 let unsubscribe;
+
+auth.onAuthStateChanged(user => {
+    if(user) {
+        thingsRef = store.collection('things')
+
+        createBtn.onclick = () => {
+            const { serverTimestamp } = firebase.firestore.FieldValue;
+            thingsRef.add({
+                uid: user.uid,
+                name: faker.commerce.productName(),
+                createdAt: serverTimestamp()
+            })
+        }
+
+        unsubscribe = thingsRef
+                        .where('uid', '==', user.uid)
+                        .orderBy('createdAt')
+                        .onSnapshot(querySnapshot => {
+                            const items = querySnapshot.docs.map(doc => {
+                                return `<li>${ doc.data().name}</li>`
+                            })
+                            thingsRef.innerHTML = items.join('')
+                        })
+    }
+})
