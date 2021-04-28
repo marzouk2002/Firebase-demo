@@ -56,5 +56,7 @@ auth.onAuthStateChanged(user => {
                             })
                             thingsRef.innerHTML = items.join('')
                         })
+    } else {
+        unsubscribe && unsubscribe()
     }
 })
